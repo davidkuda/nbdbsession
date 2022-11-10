@@ -1,0 +1,11 @@
+# create a file called ".settings.toml" with your settings / config
+# this file is going to be parsed by "settings.py"
+# Put this file on root level of the repository, i.e. before src
+
+[staging]
+user = "davidkuda"
+password = "${ENV_VAR}"
+db_url = "db.kuda.ai"
+port = 5432
+database = "dev"
+ssh_cmd = "ssh -fL 5432:db.kuda.ai:5432"

@@ -131,3 +131,10 @@ dmypy.json
 # Jupyter Notebooks
 .ipynb_checkpoints/
 
+# David Custom
+
+# folders:
+connections/
+
+# files:
+.settings.toml

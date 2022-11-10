@@ -1,0 +1,2 @@
+class EnvironmentDoesNotExistError(Exception):
+    pass
