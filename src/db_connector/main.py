@@ -18,7 +18,7 @@ from .ssh_tunnel import SSHTunnel
 def prepare_connection(environment: str = None) -> str:
     """Build conn_string from .settings.toml, export env_var, open ssh tunnel (if given).
 
-    conn_string will be made available as env var DATABASE_URL and DATABASE_URL + environment.
+    conn_string will be made available as env var DATABASE_URL and DATABASE_URL_ + environment.
 
     Args:
         environment (string):
@@ -35,7 +35,8 @@ def prepare_connection(environment: str = None) -> str:
 
     settings = get_settings(environment)
 
-    SSHTunnel(settings.ssh_cmd).main()
+    if settings.ssh_cmd is not None:
+        SSHTunnel(settings.ssh_cmd).main()
 
     invoke_ipython_sql_magic()
 
