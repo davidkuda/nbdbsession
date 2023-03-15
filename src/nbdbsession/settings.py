@@ -11,6 +11,7 @@ from .exceptions import EnvironmentDoesNotExistError
 
 @dataclass
 class Settings:
+    db_driver: str
     user: str
     password: str
     db_url: str
@@ -30,6 +31,7 @@ def get_settings(environment: str) -> Settings:
     s: dict = settings[environment]
 
     return Settings(
+        db_driver=s["db_driver"],
         user=s["user"],
         password=s["password"],
         db_url=s["db_url"],
