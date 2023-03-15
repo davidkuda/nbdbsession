@@ -15,7 +15,7 @@ from .settings import get_settings
 from .ssh_tunnel import SSHTunnel
 
 
-def prepare_connection(environment: str = None) -> str:
+def connect(environment: str = None) -> str:
     """Build conn_string from .settings.toml, export env_var, open ssh tunnel (if given).
 
     conn_string will be made available as env var DATABASE_URL and DATABASE_URL_ + environment.
