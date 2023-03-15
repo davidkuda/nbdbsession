@@ -1,0 +1,10 @@
+name: nbdbsession
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - ipython=8.11
+  - ipython-sql=0.3
+  - jupyterlab=3.5
+  - psycopg2=2.9
+  - sqlalchemy=2.0
