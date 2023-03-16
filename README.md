@@ -1,8 +1,57 @@
-# jupyter_database_io
+# nb_db_session
 
-I use notebooks all the time to connect to databases like postgres. With the notebook sessions, I create my PoCs (proof of concept). Or I also use such sessions to debug my code.
+I use notebooks all the time to connect to databases like postgres. With the notebook sessions, I often work on PoCs (proof of concept), on presentations or on debugging.
 
-[`catherinedevlin`](https://github.com/catherinedevlin) has created open source software that I love: [`ipython-sql`](https://pypi.org/project/ipython-sql/). This code helps you to manage connections.
+[`catherinedevlin`](https://github.com/catherinedevlin) has created open source software that I love: [`ipython-sql`](https://pypi.org/project/ipython-sql/). This code lets you connect to sql databases from your notebook, and run queries.
+
+### How To Use nb_db_session
+
+First, install it:
+
+```
+pip install nbdbsession
+```
+
+Then, in your git repository where you start your notebook, create a `.settings.toml` file with your database login credentials:
+
+```toml
+# .settings.toml on top level of your git repo
+[davidkuda]
+db_driver = "postgresql"
+database = "dev"
+user = "davidkuda"
+password = "${DB_PASSWORD}" # you can use environment variables
+db_url = "localhost"
+port = 5439
+# the ssh command is optional:
+ssh_cmd = "ssh -fL 5432:db.kuda.ai:5432"
+```
+
+Finally, you can connect to your database in your notebook by running the following code in a cell:
+
+```python
+from nbdbsession.sqlconn import connect
+
+connect("davidkuda") # note: this is the name as defined in .settings.toml
+```
+
+Once you have done that, you can run sql commands by prepending `%sql` (one line) `%%sql` (multi-line) in the notebook.
+
+```ipython
+%sql SELECT * FROM table LIMIT 10;
+```
+
+```ipython
+%%sql
+SELECT
+    *
+FROM
+    table
+LIMIT
+    10;
+```
+
+### Managing the conn without this repo
 
 In the usual way, you would create a connection string, something like this:
 
@@ -29,24 +78,11 @@ conn_string = f'postgresql://{c["user"]}:{c["password"]}@{c["url"]}:{c["port"]}/
 With the code in this repo, you reduce all that to one line:
 
 ```python
-from nb_db_session import prepare_connection
+from nbdbsession.sqlconn import connect
 
 # this will enable ipython sql and use the conn str that you choose:
-prepare_connection("staging")
+connect("staging")
 
 %sql
 ```
 
-You need to define your connections in a file called `.settings.toml`:
-
-```toml
-# .settings.toml
-[staging]
-user = "davidkuda"
-password = "${ENV_VAR}"
-db_url = "db.kuda.ai"
-port = 5432
-database = "dev"
-# the ssh command is optional:
-ssh_cmd = "ssh -fL 5432:db.kuda.ai:5432"
-```
