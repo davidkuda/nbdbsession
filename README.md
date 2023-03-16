@@ -1,10 +1,16 @@
-# nb_db_session
+# nbdbsession
+
+__This code helps you to manage connections to sql databases in jupyter notebooks.__
+
+`nbdbsession` stands for "notebook database session".
 
 I use notebooks all the time to connect to databases like postgres. With the notebook sessions, I often work on PoCs (proof of concept), on presentations or on debugging.
 
-[`catherinedevlin`](https://github.com/catherinedevlin) has created open source software that I love: [`ipython-sql`](https://pypi.org/project/ipython-sql/). This code lets you connect to sql databases from your notebook, and run queries.
+[`catherinedevlin`](https://github.com/catherinedevlin) has created open source software that I love: [`ipython-sql`](https://pypi.org/project/ipython-sql/).
 
-### How To Use nb_db_session
+This code -- `nbdbsession` -- lets you connect to sql databases from your notebook, and run queries.
+
+### How To Use `nbdbsession`
 
 First, install it:
 
@@ -37,11 +43,15 @@ connect("davidkuda") # note: this is the name as defined in .settings.toml
 
 Once you have done that, you can run sql commands by prepending `%sql` (one line) `%%sql` (multi-line) in the notebook.
 
-```ipython
+__Run single line sql commands directly in your notebook:__
+
+```sql
 %sql SELECT * FROM table LIMIT 10;
 ```
 
-```ipython
+__Run multi-line sql commands directly in your notebook:__
+
+```sql
 %%sql
 SELECT
     *
