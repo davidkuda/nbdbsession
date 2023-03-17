@@ -10,7 +10,7 @@ long_description = (this_directory / "README.md").read_text()
 # nbdbsession := notebook_database_session
 setup(
     name="nbdbsession",
-    version="0.2.3",
+    version="0.2.4",
     description="Config mgt to connect to databases from jupyter notebooks.",
     author="David Kuda",
     license="MIT",
