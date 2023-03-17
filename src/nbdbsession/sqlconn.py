@@ -15,7 +15,7 @@ from .settings import get_settings
 from .ssh_tunnel import SSHTunnel
 
 
-def connect(environment: str = None) -> str:
+def connect(environment: str):
     """Build conn_string from .settings.toml, export env_var, open ssh tunnel (if given).
 
     conn_string will be made available as env var DATABASE_URL and DATABASE_URL_ + environment.
@@ -48,11 +48,9 @@ def connect(environment: str = None) -> str:
     os.environ["DATABASE_URL"] = conn_str
     print(f"Set DATABASE_URL for {environment}")
 
-    # TODO: connect_to_db(conn_str)
-
-    return conn_str
+    return
 
 
-if __name__ == "db_connector.main":
+if __name__ == "ndbdsession.sqlconn":
     # this block would run on import
     pass
