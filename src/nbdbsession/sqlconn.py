@@ -26,12 +26,10 @@ def connect(environment: str):
             "production" or "staging".
 
     Returns:
-        A connection string that can be used with sqlalchemy, and that can be used with
-        iPython magic sql.
+        None
     """
     if environment is None:
         environment = os.environ["ENVIRONMENT"]
-        print(f'Environment set to "{environment}".')
 
     settings = get_settings(environment)
 
@@ -43,10 +41,8 @@ def connect(environment: str):
     conn_str = get_conn_str(settings)
     env_var = "DATABASE_URL_" + environment.upper().replace("-", "_")
     os.environ[env_var] = conn_str
-    print(f"Exported env var {env_var}.")
 
     os.environ["DATABASE_URL"] = conn_str
-    print(f"Set DATABASE_URL for {environment}")
 
     return
 

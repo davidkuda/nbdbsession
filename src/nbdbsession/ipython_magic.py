@@ -7,7 +7,6 @@ def invoke_ipython_sql_magic() -> None:
     already_invoked = ipython.find_magic("sql")
     if already_invoked is None:
         ipython.magic("load_ext sql")
-        return print("ipython magic sql made available.")
     else:
         return
 
