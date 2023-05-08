@@ -20,8 +20,16 @@ class Settings:
     ssh_cmd: str = None
 
 
+def show_connections():
+    connections, file_path = read_toml_file()
+    keys = connections.keys()
+    print(f"You have defined {len(keys)} connections in {file_path}:")
+    for k in keys:
+        print(f"  - {k}")
+
+
 def get_settings(connection: str, quote_password=True) -> Settings:
-    settings = read_toml_file()
+    settings = read_toml_file()[0]
 
     if connection not in settings.keys():
         raise EnvironmentDoesNotExistError(
@@ -46,7 +54,7 @@ def get_settings(connection: str, quote_password=True) -> Settings:
     )
 
 
-def read_toml_file(file_path: str = None) -> dict:
+def read_toml_file(file_path: str = None) -> tuple[dict, str]:
     """Parse toml file that contains the database credentials.
 
     If the file_path is not passed, this function will scan these places:
@@ -54,6 +62,10 @@ def read_toml_file(file_path: str = None) -> dict:
     - env var $SETTINGS_FILE_PATH
     - (root directory of a git project)/.settings.toml
     - $HOME/.nbdbsession.creds.toml
+
+    returns:
+        data (dict): the data parsed from the toml file
+        file_path (str): the path to the toml file
     """
 
     if file_path is None:
@@ -78,7 +90,7 @@ def read_toml_file(file_path: str = None) -> dict:
 
     with open(file_path, "rb") as f:
         data: dict = tomllib.load(f)
-        return data
+        return data, file_path
 
 
 def read_env_vars(data: dict):
