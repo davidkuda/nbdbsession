@@ -6,7 +6,7 @@ from urllib import parse
 
 import tomllib
 
-from .exceptions import EnvironmentDoesNotExistError
+from .exceptions import EnvironmentDoesNotExistError, CredsFileNotFoundError
 
 
 @dataclass
@@ -42,7 +42,14 @@ def get_settings(environment: str) -> Settings:
 
 
 def parse_toml(file_path: str = None) -> dict:
-    """Parse .settings.toml that should be at top level of this repo."""
+    """Parse toml file that contains the database credentials.
+    
+    If the file_path is not passed, this function will scan these places:
+
+    - env var $SETTINGS_FILE_PATH
+    - (root directory of a git project)/.settings.toml
+    - $HOME/.nbdbsession.creds.toml
+    """
 
     if file_path is None:
         file_path = os.environ.get("SETTINGS_FILE_PATH")
@@ -54,15 +61,20 @@ def parse_toml(file_path: str = None) -> dict:
         )
         root_dir = ps.stdout.decode().strip("\n")
         file_path = os.path.join(root_dir, ".settings.toml")
+    
+    if not os.path.isfile(file_path):
+        home_dir = os.environ.get("HOME")
+        file_path = os.path.join(home_dir, ".nbdbsession.creds.toml")
+    
+    if not os.path.isfile(file_path):
+        raise CredsFileNotFoundError("Please make sure to define your database credentials in a toml file (either $HOME/.nbdbsession_creds.toml or in .settings.toml at the root level of your git repository)")
 
     with open(file_path, "rb") as f:
         data: dict = tomllib.load(f)
 
         for section in data.keys():
-
             # First, replace all strings with ${ENV_VAR} with os.environ[ENV_VAR]
             for k, v in data[section].items():
-
                 # skip if not string
                 if not isinstance(v, str):
                     continue
