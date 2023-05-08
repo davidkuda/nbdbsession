@@ -1,0 +1,7 @@
+[test_conn]
+db_driver = "postgres"
+user = "davidkuda"
+password = "${DB_PASSWORD}"
+db_url = "db.kuda.ai"
+port = 5432
+database = "postgres"
